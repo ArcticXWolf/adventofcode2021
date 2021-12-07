@@ -37,3 +37,4 @@ This repo holds my solutions to the [advent of code 2021 challenge](https://adve
 
 * [fabsennn/AdventOfCode | C++](https://github.com/fabsennn/AdventOfCode)
 * [rebouny/advent-of-code-2021 | Python](https://github.com/rebouny/advent-of-code-2021)
+* [EinAeffchen/AdventOfCode2021 | Python](https://github.com/EinAeffchen/AdventOfCode2021)
