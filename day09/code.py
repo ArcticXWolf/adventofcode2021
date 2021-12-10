@@ -3,7 +3,7 @@ import sys, os
 import logging
 from typing import Dict, Generator, List, Tuple
 
-logging.basicConfig(format="%(message)s", level=logging.DEBUG)
+logging.basicConfig(format="%(message)s", level=logging.INFO)
 COLORS = [f"\x1b[38;5;{d}m" for d in range(124, 232)]
 COLORS[0] = "\x1b[38;5;8m"
 COLOR_RESET = "\x1b[0m"
