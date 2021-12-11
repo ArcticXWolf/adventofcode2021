@@ -14,10 +14,10 @@ This repo holds my solutions to the [advent of code 2021 challenge](https://adve
 * [Day 8](https://adventofcode.com/2021/day/8) | [Solution](https://github.com/ArcticXWolf/adventofcode2021/tree/main/day08)
 * [Day 9](https://adventofcode.com/2021/day/9) | [Solution](https://github.com/ArcticXWolf/adventofcode2021/tree/main/day09)
 * [Day 10](https://adventofcode.com/2021/day/10) | [Solution](https://github.com/ArcticXWolf/adventofcode2021/tree/main/day10)
+* [Day 11](https://adventofcode.com/2021/day/11) | [Solution](https://github.com/ArcticXWolf/adventofcode2021/tree/main/day11)
 
 # Future
 
-* [Day 11](https://adventofcode.com/2021/day/11) | [Solution](https://github.com/ArcticXWolf/adventofcode2021/tree/main/day11)
 * [Day 12](https://adventofcode.com/2021/day/12) | [Solution](https://github.com/ArcticXWolf/adventofcode2021/tree/main/day12)
 * [Day 13](https://adventofcode.com/2021/day/13) | [Solution](https://github.com/ArcticXWolf/adventofcode2021/tree/main/day13)
 * [Day 14](https://adventofcode.com/2021/day/14) | [Solution](https://github.com/ArcticXWolf/adventofcode2021/tree/main/day14)
