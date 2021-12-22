@@ -1,10 +1,7 @@
 from __future__ import annotations
-import itertools
 import sys, os, re, numpy
 import logging
-from typing import Deque, Dict, Generator, List, Optional, Set, Tuple, Union
-
-from numpy.core.fromnumeric import sort
+from typing import Dict, List, Tuple
 
 logging.basicConfig(format="%(message)s", level=logging.INFO)
 
@@ -14,8 +11,26 @@ filename = (
     else os.path.join(os.path.dirname(os.path.abspath(__file__)), "testinput")
 )
 LINE_REGEX = re.compile("(-?\d+),(-?\d+),(-?\d+)")
-COLORS_RED = "\x1b[38;5;9m"
-COLOR_RESET = "\x1b[0m"
+
+
+def main():
+    with open(filename, "r") as f:
+        # setup
+        scanner_beacons = parse_input(f.readlines())
+        scanner_distances = calculate_distances(scanner_beacons)
+        transformation_dict = depth_search_overlap_transformation_matrices(
+            scanner_distances, 0, {}, numpy.identity(4)
+        )
+
+        # part 1
+        beacons = transform_beacons_to_default_space(
+            scanner_beacons, transformation_dict
+        )
+        logging.info("There are %d beacons in total.", len(beacons))
+
+        # part 2
+        max_distance, pair = calculate_max_scanner_distance(transformation_dict)
+        logging.info("Maximum distance is %d with pair %s.", max_distance, pair)
 
 
 def parse_input(input) -> Dict[int, List[numpy.array]]:
@@ -136,43 +151,30 @@ def transform_beacons_to_default_space(scanner_beacons, transformation_dict):
             absolute_coords = transformation_dict[s] @ beacon_coords
             beacons.add(tuple(absolute_coords.astype(int)))
 
+    for b in sorted(beacons):
+        logging.debug("%s", b)
     return beacons
 
 
-def main():
-    # part 1
-    with open(filename, "r") as f:
-        scanner_beacons = parse_input(f.readlines())
-        scanner_distances = calculate_distances(scanner_beacons)
-        transformation_dict = depth_search_overlap_transformation_matrices(
-            scanner_distances, 0, {}, numpy.identity(4)
-        )
-        beacons = transform_beacons_to_default_space(
-            scanner_beacons, transformation_dict
-        )
-        for b in sorted(beacons):
-            logging.debug("%s", b)
-        logging.info("There are %d beacons in total.", len(beacons))
+def calculate_max_scanner_distance(transformation_dict):
+    scanner_coordinates = {}
+    for s, t in transformation_dict.items():
+        scanner_coordinates[s] = tuple(t @ numpy.array([0, 0, 0, 1]))
 
-        scanner_coordinates = {}
-        for s, t in transformation_dict.items():
-            scanner_coordinates[s] = tuple(t @ numpy.array([0, 0, 0, 1]))
+    for s, b in scanner_coordinates.items():
+        logging.debug("%s %s", s, b)
 
-        for s, b in scanner_coordinates.items():
-            logging.debug("%s %s", s, b)
-
-        max_distance = 0
-        pair = []
-        for s1, v1 in scanner_coordinates.items():
-            for s2, v2 in scanner_coordinates.items():
-                distance = abs(v1[0] - v2[0])
-                distance += abs(v1[1] - v2[1])
-                distance += abs(v1[2] - v2[2])
-                if distance > max_distance:
-                    max_distance = distance
-                    pair = [s1, s2]
-
-        logging.info("Maximum distance is %d with pair %s.", max_distance, pair)
+    max_distance = 0
+    pair = []
+    for s1, v1 in scanner_coordinates.items():
+        for s2, v2 in scanner_coordinates.items():
+            distance = abs(v1[0] - v2[0])
+            distance += abs(v1[1] - v2[1])
+            distance += abs(v1[2] - v2[2])
+            if distance > max_distance:
+                max_distance = distance
+                pair = [s1, s2]
+    return max_distance, pair
 
 
 main()
