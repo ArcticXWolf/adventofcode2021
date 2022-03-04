@@ -57,20 +57,22 @@ class LavaCave:
         self.coloring = [[0] * len(x) for x in self.heightmap]
         color = 1
         for low_x, low_y, _ in self.get_low_points():
-            queue = [(low_x, low_y)]
-            while len(queue) > 0:
-                x, y = queue.pop(0)
-                self.coloring[y][x] = color
-                for dx, dy in DIRECTIONS:
-                    if (
-                        0 <= x + dx < self.xheight()
-                        and 0 <= y + dy < self.yheight()
-                        and self.heightmap[y + dy][x + dx] < 9
-                        and self.coloring[y + dy][x + dx] <= 0
-                    ):
-                        queue.append((x + dx, y + dy))
-
+            self.flood_basin_with_color(color, (low_x, low_y))
             color += 1
+
+    def flood_basin_with_color(self, color, start_pos) -> None:
+        queue = [start_pos]
+        while len(queue) > 0:
+            x, y = queue.pop(0)
+            self.coloring[y][x] = color
+            for dx, dy in DIRECTIONS:
+                if (
+                    0 <= x + dx < self.xheight()
+                    and 0 <= y + dy < self.yheight()
+                    and self.heightmap[y + dy][x + dx] < 9
+                    and self.coloring[y + dy][x + dx] <= 0
+                ):
+                    queue.append((x + dx, y + dy))
 
     def get_basin_sizes(self) -> Generator[int]:
         for low_x, low_y, _ in self.get_low_points():
