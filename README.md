@@ -28,10 +28,11 @@ This repo holds my solutions to the [advent of code 2021 challenge](https://adve
 * [Day 22](https://adventofcode.com/2021/day/22) | [Solution](https://github.com/ArcticXWolf/adventofcode2021/tree/main/day22)
 * [Day 23](https://adventofcode.com/2021/day/23) | [Solution](https://github.com/ArcticXWolf/adventofcode2021/tree/main/day23)
 * [Day 24](https://adventofcode.com/2021/day/24) | [Solution](https://github.com/ArcticXWolf/adventofcode2021/tree/main/day24)
+* [Day 25](https://adventofcode.com/2021/day/25) | [Solution](https://github.com/ArcticXWolf/adventofcode2021/tree/main/day25)
 
 # Future
 
-* [Day 25](https://adventofcode.com/2021/day/25) | [Solution](https://github.com/ArcticXWolf/adventofcode2021/tree/main/day25)
+Maybe the next AOC? :)
 
 # Friends
 
