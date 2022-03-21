@@ -55,45 +55,8 @@ def neighbors_of_position(costs: Dict[Tuple[int, int], int], pos: Tuple[int, int
 def dijkstra(
     costs: Dict[Tuple[int, int], int], width: int, height: int
 ) -> List[Tuple[int, int]]:
-    discovered_distance: Dict[Tuple[int, int], int] = {}
-    previous_node: Dict[Tuple[int, int], Tuple[int, int]] = {}
-    unvisited_nodes: List[Tuple[int, int]] = [x for x in costs.keys()]
-
-    current_node = (0, 0)
-    discovered_distance[current_node] = 0
-
-    while len(unvisited_nodes) > 0:
-        current_node = min(discovered_distance, key=discovered_distance.get)  # todo
-        current_distance = discovered_distance[current_node]
-        del discovered_distance[current_node]
-        unvisited_nodes.remove(current_node)
-        for x in neighbors_of_position(costs, current_node, width, height):
-            if x not in unvisited_nodes:
-                continue
-
-            alt = current_distance + costs[x]
-            if x in discovered_distance:
-                if alt < discovered_distance[x]:
-                    discovered_distance[x] = alt
-                    previous_node[x] = current_node
-            else:
-                discovered_distance[x] = alt
-                previous_node[x] = current_node
-
-    return_path = []
-    return_node = (width - 1, height - 1)
-    while return_node != (0, 0):
-        return_path.insert(0, return_node)
-        return_node = previous_node[return_node]
-
-    return return_path
-
-
-def dijkstra2(
-    costs: Dict[Tuple[int, int], int], width: int, height: int
-) -> List[Tuple[int, int]]:
     open_nodes: List[Tuple[int, int, int, List[Tuple[int, int]]]] = []
-    closed_nodes: Dict[Tuple[int, int], int] = {}
+    closed_nodes: Set[Tuple[int, int]] = set()
 
     open_nodes.append((0, 0, 0, []))
 
@@ -106,7 +69,7 @@ def dijkstra2(
         if current_node == (width - 1, height - 1):
             break
 
-        closed_nodes[current_node] = current_distance
+        closed_nodes.add(current_node)
 
         for x in neighbors_of_position(costs, current_node):
             if x in closed_nodes:
@@ -138,7 +101,7 @@ def visualize_path(costs, width, height, path) -> str:
 def main():
     with open(filename, "r") as f:
         costs, width, height = parse_input(f.readlines())
-        path = dijkstra2(costs, width, height)
+        path = dijkstra(costs, width, height)
         logging.debug(
             "Path:\n%s",
             visualize_path(costs, width, height, path),
@@ -147,7 +110,7 @@ def main():
         logging.info("Risk cost of path is %d", final_cost)
 
         costs, width, height = extend_map(costs, width, height, 5)
-        path = dijkstra2(costs, width, height)
+        path = dijkstra(costs, width, height)
         logging.debug(
             "Path:\n%s",
             visualize_path(costs, width, height, path),
